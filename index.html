@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Weather</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+    <body>
+        <div class="app-wrap">
+            <header>
+                <input type="text" onfocus="this.value=''"
+                autocomplete="off" class="search-city"
+                placeholder="Search city ...">
+            </header>
+            <main>
+                <section class="location sector">
+                    <div class="city">City, country</div>
+                    <div class="date">Day day Month year</div>
+                </section>
+                <div class="temperature sector">
+                    <div class="temp">temp<span>°C</span></div>                    
+                    <div class="min-temp">temp°C</div>
+                    <div class="max-temp">temp°C</div>                    
+                </div>
+                <div class="sun sector">
+                    <div class="sunrise">sunrise</div>
+                    <div class="sunset">sunset</div>
+                    <div class="day-length">day length</div>
+                </div>
+                <div class="cloudy">Cloudy</div>
+                <div class="city-map">
+
+                </div>
+            </main>
+        </div>
+
+
+    <script src="main.js"></script>
+    </body>
+</html>
