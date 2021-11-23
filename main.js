@@ -12,12 +12,16 @@ const api = {
 
 const searchCity = document.querySelector('.search-city');
 
-if (localStorage.city) {
-    searchCity.value = localStorage.city; 
-    getResults(searchCity.value);
-} else {
-    searchCity.value = "";
+function setDefaultCity() {
+    if (localStorage.city) {
+        searchCity.value = localStorage.city; 
+        getResults(searchCity.value);
+    } else {
+        searchCity.value = "";
+    }
 }
+
+setDefaultCity();
 
 searchCity.addEventListener('keypress', setQuery);
 
@@ -35,38 +39,54 @@ function getResults(query) {
 }
 
 function displayResults(weather) {
-    // console.log(weather);
+    console.log(weather);
 
     let city = document.querySelector('.city'),
         date = document.querySelector('.date'),
+
         temp = document.querySelector('.temp'),
-        minTemp = document.querySelector('.min-temp'),
-        maxTemp = document.querySelector('.max-temp'),
-        dayLength = document.querySelector('.day-length'),
+        tempFills = document.querySelector('.temp-fills'),
+        tempMin = document.querySelector('.temp-min'),
+        tempMax = document.querySelector('.temp-max'),
+
         sunRise = document.querySelector('.sunrise'),
         sunSet = document.querySelector('.sunset'),
-        cloudy = document.querySelector('.cloudy');
-        
+        dayLength = document.querySelector('.day-length'),
+
+        // wind
+
+        cloudy = document.querySelector('.cloudy'),
+        humidity = document.querySelector('.humidity'),
+        pressure = document.querySelector('.pressure');
 
     let timezone = weather.timezone,
         sunrise = weather.sys.sunrise,
         sunset = weather.sys.sunset;
         mainTemp = weather.main.temp;
+        presPascal = weather.main.pressure;
     
-    city.innerText = `${weather.name}, ${weather.sys.country}`;
-    date.innerText = dateBuilder(new Date());
+    city.innerHTML = `${weather.name}, ${weather.sys.country}`;
+    date.innerHTML = dateBuilder(new Date());
+
     temp.innerHTML = `${Math.round(mainTemp)}°C`;
-    cloudy.innerText = weather.weather[0].main;
-    minTemp.innerHTML = `Min ${Math.round(weather.main.temp_min).toFixed(1)}°C`;
-    maxTemp.innerHTML = `Max ${(weather.main.temp_max).toFixed(1)}°C`;
-    dayLength.innerHTML = `Day length ${dayLengthCalc(sunset, sunrise)}`;
+    tempFills.innerHTML = `Fills like ${Math.round(weather.main.feels_like)}°C`;
+    tempMin.innerHTML = `Min ${Math.round(weather.main.temp_min).toFixed(1)}°C`;
+    tempMax.innerHTML = `Max ${(weather.main.temp_max).toFixed(1)}°C`;
+
     sunRise.innerHTML = `Sunrise ${sun(sunrise, timezone)}`;
     sunSet.innerHTML = `Sunset ${sun(sunset, timezone)}`;
+    dayLength.innerHTML = `Day length ${dayLengthCalc(sunset, sunrise)}`;
+
+    // wind
+
+    cloudy.innerText = weather.weather[0].main;
+    humidity.innerHTML = `Humidity ${weather.main.humidity}%`;
+    pressure.innerHTML = `Pressure mm Hg ${getPressure(presPascal)}`;
 
     addCityToLocalStorage(weather.cod, weather.name);
 
     let mapCity = document.querySelector('.city-map');
-    mapCity.style.backgroundColor = setColor((27));
+    // mapCity.style.backgroundColor = setColor((27));
 
     temp.style.color = setColor((mainTemp));
 }
@@ -125,8 +145,14 @@ let setColor = function(temp) {
         color = 125;
     } else         
         color = 250 - Math.floor(125 + temp * coefficient);
-        console.log(`color ${color}`);
+        // console.log(`color ${color}`);
  
     return `hsl(${color}, 50%, 50%)`;
 }
 
+let getPressure = function(pressure) {
+    const coeff = 0.75;
+    let presMmMercury = Math.floor(pressure * coeff);
+    // console.log(presMmMercury);
+    return presMmMercury;    
+}
