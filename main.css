@@ -1,33 +1,61 @@
 
+@import "light.css";
+@import "dark.css";
+
+:root {
+    --mode-background-color: #ff0000;
+    --mode-color: #00ff00;
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    color: #ddd;
+    /* color: #ddd; */
 }
 
 body {
     font-family: 'montserrat', sans-serif;
-    background-color: rgb(207, 207, 207);
+    /* background-color: rgb(207, 207, 207); */
     /* background-image: url('img/fall.jpg'); */
     background-size: cover;
     background-position: top center;
+}
+
+button {
+    padding: 0;
+    border: none;
+    font: inherit;
+    color: inherit;
+    background-color: transparent;
+    width: 100px;
+    height: 30px;
+    background-color: rgb(20, 46, 196);
+    color: #ddd;
+    border-radius: 10px;
 }
 
 .app-wrap {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.99));
+    /* background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.99)); */
 }
+
+.mode {
+    background-color: var(--mode-background-color);
+    color: var(--mode-color);
+}
+
 .sector {
     min-width: 200px;
-    background-color:rgb(36, 36, 36);
+    background-color: var(--sector-background-color);
     margin: 5px;
     padding: 15px;
     border-radius: 15px;
     box-shadow: 3px 3px 1px rgb(26, 26, 26);
     text-align: left;
+    color: var(--mode-color);
 }
 header {
     display: flex;
@@ -42,23 +70,23 @@ header input  {
     padding: 10px 15px;
     border: none;
     outline: none;
-    background-color: rgb(210, 216, 208);
+    background-color: var(--sector-background-color);
     border-radius: 20px;
     border-bottom: 3px solid #96908b;
 
-    color: #fdfdfd;
+    color: var(--mode-color);
     font-size: 20px;
     font-weight: 700;
     transition: 0.2s ease-out;
 }
 
-header input:hover {
+/* header input:hover {
     background-color: rgba(200, 200, 200, 0.5);
 
-}
-header input:focus {
+} */
+/* header input:focus {
     background-color: rgba(200, 200, 200, 0.9);
-}
+} */
 
 main {
     flex: 1 1 100%;
@@ -70,19 +98,19 @@ main {
 }
 
 .location .city {
-    color: #fff;
+    color: var(--mode-color);
     font-size: 32px;
     font-weight: 500;
     margin-bottom: 5px;
 }
 
 .location .date {
-    color: #fff;
+    color: var(--mode-color);
     font-size: 16px;
 }
 
 .temperature .temp {
-    color: #fff;
+    color: var(--mode-color);
     font-size: 60px;
     font-weight: 900;
     text-shadow: 2px 10px rgba(0, 0, 0, 0.6);
@@ -95,7 +123,7 @@ main {
 } */
 
 .temperature .weather {
-    color: #fff;
+    color: var(--mode-color);
     font-size: 32px;
     font-weight: 700;
     font-style: italic;
@@ -104,26 +132,26 @@ main {
 }
 
 .temperature .hi-low {
-    color: #fff;
+    color: var(--mode-color);
     font-size: 24px;
     font-weight: 500;
     text-shadow: 1px 4px rgba(0, 0, 0, 0.4);
 }
-.city-map {
+/* .city-map {
     width: 300px;
     height: 150px;
-    /* background-color:hsl(177, 52%, 76%) */
-}
+    background-color:hsl(177, 52%, 76%)
+} */
 
 footer {
     width: 100%;
     height: 50px;
-    background-color: #ccc;
+    background-color: var(--sector-background-color);
 }
 
 footer p {
     font-size: 16px;
     text-align: left;
     margin-left: 50px;
-    color: #111;
+    color: var(--mode-color);
 }

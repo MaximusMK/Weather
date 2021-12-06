@@ -5,14 +5,14 @@
 // mail: intmaxmk@gamil.com
 // password: usual
 
-const api = {
-    key: "7ee91a6297b55524ffd8fc1978842f5c",
-    base: "https://api.openweathermap.org/data/2.5/"
+const API = {
+    KEY: "7ee91a6297b55524ffd8fc1978842f5c",
+    BASE: "https://api.openweathermap.org/data/2.5/",
 }
 
 const searchCity = document.querySelector('.search-city');
 
-function setDefaultCity() {
+let setDefaultCity = function() {
     if (localStorage.city) {
         searchCity.value = localStorage.city; 
         getResults(searchCity.value);
@@ -23,6 +23,34 @@ function setDefaultCity() {
 
 setDefaultCity();
 
+// THEME
+
+const btnMode = document.querySelector('.btn-mode'),
+      mode = document.querySelector('.mode'),
+      currentMode = localStorage.getItem('mode');
+
+let setMode = function(modeName) {
+    mode.setAttribute('data-mode', modeName);
+    localStorage.setItem('mode', modeName);
+}
+
+if (currentMode) {
+    mode.setAttribute('data-mode', currentMode) 
+} else {
+    setMode('light');
+}
+
+btnMode.addEventListener('click', () => {
+    console.log("btnMode clicked");
+    if (mode.getAttribute('data-mode') == "light") {
+        setMode('dark');
+    } else {
+        setMode('light');
+    }
+})
+
+//
+
 searchCity.addEventListener('keypress', setQuery);
 
 function setQuery(event) {
@@ -32,11 +60,30 @@ function setQuery(event) {
     }
 
 function getResults(query) {
-    fetch(`${api.base}weather?q=${query}&units=metric&APPID=${api.key}`)
+    fetch(`${API.BASE}weather?q=${query}&units=metric&APPID=${API.KEY}`)
         .then(weather => {
             return weather.json();
         }).then(displayResults)
 }
+///////////////////////////////
+
+function getWeatherMap() {
+    fetch(`http://maps.openweathermap.org/maps/2.0/weather/${op}/${z}/${x}/${y}?appid=${API.KEY}`)
+        .then(weather => {
+            return weather.json();
+        }).then(showMap())
+}
+let showMap = function() {
+    
+
+}
+
+let mapCity = document.querySelector('.city-map');
+mapCity.innerHTML = `<iframe width="500" height="400" frameborder="0" scrolling="yes" marginheight="0" marginwidth="0"
+src="https://www.openstreetmap.org/export/embed.html?bbox=10.25537109375001%2C49.62672481765917%2C38.84216308593751%2C51.18795112740308&amp;
+layer=mapnik"></iframe>`
+
+//////////////////////////////////
 
 function displayResults(weather) {
     console.log(weather);
@@ -53,7 +100,9 @@ function displayResults(weather) {
         sunSet = document.querySelector('.sunset'),
         dayLength = document.querySelector('.day-length'),
 
-        // wind
+        windDirection = document.querySelector('.direction'),
+        windSpeed = document.querySelector('.speed'),
+        windGust = document.querySelector('.gust'),
 
         cloudy = document.querySelector('.cloudy'),
         humidity = document.querySelector('.humidity'),
@@ -61,34 +110,38 @@ function displayResults(weather) {
 
     let timezone = weather.timezone,
         sunrise = weather.sys.sunrise,
-        sunset = weather.sys.sunset;
-        mainTemp = weather.main.temp;
+        sunset = weather.sys.sunset,
+        mainTemp = weather.main.temp,
         presPascal = weather.main.pressure;
+        gust = weather.wind.gust;
+
     
     city.innerHTML = `${weather.name}, ${weather.sys.country}`;
     date.innerHTML = dateBuilder(new Date());
 
-    temp.innerHTML = `${Math.round(mainTemp)}°C`;
-    tempFills.innerHTML = `Fills like ${Math.round(weather.main.feels_like)}°C`;
-    tempMin.innerHTML = `Min ${Math.round(weather.main.temp_min).toFixed(1)}°C`;
+    temp.innerHTML = `${mainTemp.toFixed(0)}°C`;
+    tempFills.innerHTML = `Fills like ${(weather.main.feels_like).toFixed(0)}°C`;
+    tempMin.innerHTML = `Min ${(weather.main.temp_min).toFixed(1)}°C`;
     tempMax.innerHTML = `Max ${(weather.main.temp_max).toFixed(1)}°C`;
+    temp.style.color = setColor((mainTemp));
 
     sunRise.innerHTML = `Sunrise ${sun(sunrise, timezone)}`;
     sunSet.innerHTML = `Sunset ${sun(sunset, timezone)}`;
     dayLength.innerHTML = `Day length ${dayLengthCalc(sunset, sunrise)}`;
 
-    // wind
-
-    cloudy.innerText = weather.weather[0].main;
+    windDirection.innerHTML = `Wind direction ${getWindDirection(weather.wind.deg)}`;
+    windSpeed.innerHTML = `Wind speed ${Math.round(weather.wind.speed)} m/s`;
+    windGust.innerHTML = `${isGustExist(gust)}`;
+ 
+    cloudy.innerText = `Sky ${weather.weather[0].description}`;
     humidity.innerHTML = `Humidity ${weather.main.humidity}%`;
     pressure.innerHTML = `Pressure mm Hg ${getPressure(presPascal)}`;
 
     addCityToLocalStorage(weather.cod, weather.name);
+    addToCityList(weather.name);
 
-    let mapCity = document.querySelector('.city-map');
-    // mapCity.style.backgroundColor = setColor((27));
+   
 
-    temp.style.color = setColor((mainTemp));
 }
 
 let sun = function(time, timezone) {
@@ -103,7 +156,7 @@ let dayLengthCalc = function(sunset, sunrise) {
     return dayLength;
 }
 
-let msToReadableTime = function (time){
+let msToReadableTime = function(time){
     const s = 1000;
     const m = s * 60;
     const h = m * 60;
@@ -117,9 +170,9 @@ let msToReadableTime = function (time){
     seconds = (seconds < 10) ? "0"+ seconds : seconds;
      
     return `${hours}:${minutes}:${seconds}`;
-  }
+}
 
-let dateBuilder = function (currentDate) {
+let dateBuilder = function(currentDate) {
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     const days = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
 
@@ -156,3 +209,44 @@ let getPressure = function(pressure) {
     // console.log(presMmMercury);
     return presMmMercury;    
 }
+
+let getWindDirection = function(deg) {
+    let direction;
+    switch (true) {
+        case (deg > 22.5 && deg <= 67.5): 
+            return direction = "NE"
+        case (deg > 67.5 && deg <= 112.5): 
+            return direction = "E"
+        case (deg > 112.5 && deg <= 157.5): 
+            return direction = "SE"
+        case (deg > 157.5 && deg <= 202.5): 
+            return direction = "S"
+        case (deg > 202.5 && deg <= 247.5): 
+            return direction = "SW"
+        case (deg > 247.5 && deg <= 292.5): 
+            return direction = "W"
+        case (deg > 292.5 && deg <= 337.5): 
+            return direction = "NW"
+        case (deg > 337.5 && deg <= 22.5):
+            return direction = "N";
+    }
+    // console.log(direction);
+}
+
+let isGustExist = function(gust) {
+    if (gust) {
+        return `Wind gust ${Math.round(gust)} m/s`;
+    } else {
+        return `No gusts of wind`
+    }
+}
+
+// addCityToArray
+let cities = [];
+
+let addToCityList = function(city) {
+    let tmpCityList = cities;
+    tmpCityList.push(city);
+    localStorage.setItem('cityList', JSON.stringify(tmpCityList));
+}
+// addToCityList(weather.name);

@@ -6,11 +6,12 @@
     <link rel="stylesheet" href="main.css">
 </head>
     <body>
-        <div class="app-wrap">
+        <div class="app-wrap mode">
             <header>
                 <input type="text" onfocus="this.value=''"
                 autocomplete="off" class="search-city"
                 placeholder="Search city ...">
+                <button class="btn-mode">Turn Mode</button>
             </header>
             <main>
                 <div class="location sector">
@@ -19,8 +20,8 @@
                 </div>
 
                 <div class="temperature sector">
-                    <div class="temp">temp<span>°C</span></div>                    
-                    <div class="temp-fills">temp<span>°C</span></div>                    
+                    <div class="temp">temp°C></div>                    
+                    <div class="temp-fills">temp°C</div>                    
                     <div class="temp-min">temp°C</div>
                     <div class="temp-max">temp°C</div>   
                 </div>
@@ -45,6 +46,7 @@
 
                 <div class="maps sector">
                     <div class="city-map"></div>
+                   
                 </div>
 
                 <footer>
