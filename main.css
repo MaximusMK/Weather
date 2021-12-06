@@ -1,6 +1,6 @@
 
-@import "/light.css";
-@import "/dark.css";
+@import "./light.css";
+@import "./dark.css";
 
 :root {
     --mode-background-color: #ff0000;
