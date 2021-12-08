@@ -23,6 +23,17 @@ let setDefaultCity = function() {
 
 setDefaultCity();
 
+let addCityToList = function(city) {
+    let citiesList = JSON.parse(localStorage.getItem('cityList')) || [];
+    if (citiesList.includes(city)) {
+        console.log("Include");
+        //добавлять город и удалять его же с мета в массиве
+    } else {
+    citiesList.unshift(city);
+    localStorage.setItem('cityList', JSON.stringify(citiesList));
+    }
+}
+
 // THEME
 
 const btnMode = document.querySelector('.btn-mode'),
@@ -75,7 +86,6 @@ function getWeatherMap() {
 }
 let showMap = function() {
     
-
 }
 
 let mapCity = document.querySelector('.city-map');
@@ -90,6 +100,7 @@ function displayResults(weather) {
 
     let city = document.querySelector('.city'),
         date = document.querySelector('.date'),
+        time = document.querySelector('.time'),
 
         temp = document.querySelector('.temp'),
         tempFills = document.querySelector('.temp-fills'),
@@ -114,10 +125,10 @@ function displayResults(weather) {
         mainTemp = weather.main.temp,
         presPascal = weather.main.pressure;
         gust = weather.wind.gust;
-
     
     city.innerHTML = `${weather.name}, ${weather.sys.country}`;
-    date.innerHTML = dateBuilder(new Date());
+    date.innerHTML = dateBuilder(timezone);
+    time.innerHTML = timeBuilder(timezone);
 
     temp.innerHTML = `${mainTemp.toFixed(0)}°C`;
     tempFills.innerHTML = `Fills like ${(weather.main.feels_like).toFixed(0)}°C`;
@@ -138,10 +149,7 @@ function displayResults(weather) {
     pressure.innerHTML = `Pressure mm Hg ${getPressure(presPascal)}`;
 
     addCityToLocalStorage(weather.cod, weather.name);
-    addToCityList(weather.name);
-
-   
-
+    addCityToList(weather.name);
 }
 
 let sun = function(time, timezone) {
@@ -165,22 +173,44 @@ let msToReadableTime = function(time){
     let minutes = Math.floor(time / m % 60);
     let seconds = Math.floor(time / s % 60);
 
+    // create f() and use in timeBuilder and sun
     hours = (hours < 10) ? "0"+ hours : hours;
     minutes = (minutes < 10) ? "0"+ minutes : minutes;
     seconds = (seconds < 10) ? "0"+ seconds : seconds;
      
     return `${hours}:${minutes}:${seconds}`;
 }
+ // function currentDate
+let getCurrentDate = function() {
 
-let dateBuilder = function(currentDate) {
+}
+
+let dateBuilder = function(timezone) {
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     const days = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
+
+    // function currentDate
+    let localDate = new Date();
+    let currentDate = new Date(localDate.getTime() + 
+    new Date().getTimezoneOffset() * 60 * 1000 + timezone * 1000);
 
     let day = days[currentDate.getDay()];
     let date = currentDate.getDate();
     let month = months[currentDate.getMonth()];
     let year = currentDate.getFullYear();
     return `${day}, ${date} ${month} ${year}`;
+}
+
+let timeBuilder = function(timezone) {
+
+    // function currentDate
+    let localDate = new Date();
+    let currentDate = new Date(localDate.getTime() + 
+    new Date().getTimezoneOffset() * 60 * 1000 + timezone * 1000);
+
+    let hours = currentDate.getHours();
+    let minutes = currentDate.getMinutes();
+    return `${hours}:${minutes}`;
 }
 
 let addCityToLocalStorage = function(cod, name) {
@@ -198,15 +228,12 @@ let setColor = function(temp) {
         color = 125;
     } else         
         color = 250 - Math.floor(125 + temp * coefficient);
-        // console.log(`color ${color}`);
- 
     return `hsl(${color}, 50%, 50%)`;
 }
 
 let getPressure = function(pressure) {
     const coeff = 0.75;
     let presMmMercury = Math.floor(pressure * coeff);
-    // console.log(presMmMercury);
     return presMmMercury;    
 }
 
@@ -240,13 +267,3 @@ let isGustExist = function(gust) {
         return `No gusts of wind`
     }
 }
-
-// addCityToArray
-let cities = [];
-
-let addToCityList = function(city) {
-    let tmpCityList = cities;
-    tmpCityList.push(city);
-    localStorage.setItem('cityList', JSON.stringify(tmpCityList));
-}
-// addToCityList(weather.name);

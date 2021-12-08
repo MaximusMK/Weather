@@ -2,4 +2,5 @@
     --mode-background-color: #333;
     --sector-background-color: #222;
     --mode-color: #ddd; 
+    --map-filter: invert(100%);
 }

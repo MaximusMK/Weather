@@ -3,8 +3,9 @@
 @import "./dark.css";
 
 :root {
-    --mode-background-color: #ff0000;
-    --mode-color: #00ff00;
+    --mode-background-color: #000;
+    --mode-color: #fff;
+    --map-filter: invert(0%);
 }
 
 * {
@@ -137,11 +138,11 @@ main {
     font-weight: 500;
     text-shadow: 1px 4px rgba(0, 0, 0, 0.4);
 }
-/* .city-map {
-    width: 300px;
-    height: 150px;
-    background-color:hsl(177, 52%, 76%)
-} */
+.city-map {
+    /* width: 300px;
+    height: 150px; */
+    filter: var(--map-filter);
+}
 
 footer {
     width: 100%;
