@@ -1,6 +1,7 @@
 
 [data-mode="light"] {
-    --mode-background-color: #ddd;
+    --body-background-color: #ddd;
+    --header-background-color: #aaa;
     --sector-background-color: #eee;
-    --mode-color: #333;  
+    --body-color: #333;  
 }

@@ -23,21 +23,10 @@ let setDefaultCity = function() {
 
 setDefaultCity();
 
-let addCityToList = function(city) {
-    let citiesList = JSON.parse(localStorage.getItem('cityList')) || [];
-    if (citiesList.includes(city)) {
-        console.log("Include");
-        //добавлять город и удалять его же с мета в массиве
-    } else {
-    citiesList.unshift(city);
-    localStorage.setItem('cityList', JSON.stringify(citiesList));
-    }
-}
-
 // THEME
 
 const btnMode = document.querySelector('.btn-mode'),
-      mode = document.querySelector('.mode'),
+      mode = document.querySelector('body'),
       currentMode = localStorage.getItem('mode');
 
 let setMode = function(modeName) {
@@ -60,7 +49,7 @@ btnMode.addEventListener('click', () => {
     }
 })
 
-//
+//////////////////////////////
 
 searchCity.addEventListener('keypress', setQuery);
 
@@ -76,7 +65,7 @@ function getResults(query) {
             return weather.json();
         }).then(displayResults)
 }
-///////////////////////////////
+// Map
 
 function getWeatherMap() {
     fetch(`http://maps.openweathermap.org/maps/2.0/weather/${op}/${z}/${x}/${y}?appid=${API.KEY}`)
@@ -89,7 +78,7 @@ let showMap = function() {
 }
 
 let mapCity = document.querySelector('.city-map');
-mapCity.innerHTML = `<iframe width="500" height="400" frameborder="0" scrolling="yes" marginheight="0" marginwidth="0"
+mapCity.innerHTML = `<iframe width="800" height="600" scrolling="yes"
 src="https://www.openstreetmap.org/export/embed.html?bbox=10.25537109375001%2C49.62672481765917%2C38.84216308593751%2C51.18795112740308&amp;
 layer=mapnik"></iframe>`
 
@@ -149,7 +138,21 @@ function displayResults(weather) {
     pressure.innerHTML = `Pressure mm Hg ${getPressure(presPascal)}`;
 
     addCityToLocalStorage(weather.cod, weather.name);
-    addCityToList(weather.name);
+    // addCityToList(weather.name);
+    addCityToList(searchCity.value);
+}
+
+let addCityToList = function(city) {
+    let cityLowerCase = city.toLowerCase();
+    let citiesList = JSON.parse(localStorage.getItem('cityList')) || [];
+    if (citiesList.includes(cityLowerCase)) {
+        citiesList.splice(citiesList.indexOf(cityLowerCase), 1);
+        citiesList.unshift(cityLowerCase);
+        localStorage.setItem('cityList', JSON.stringify(citiesList.slice(0, 10)));
+    } else {
+        citiesList.unshift(cityLowerCase);
+        localStorage.setItem('cityList', JSON.stringify(citiesList.slice(0, 10)));
+    }
 }
 
 let sun = function(time, timezone) {
@@ -179,10 +182,6 @@ let msToReadableTime = function(time){
     seconds = (seconds < 10) ? "0"+ seconds : seconds;
      
     return `${hours}:${minutes}:${seconds}`;
-}
- // function currentDate
-let getCurrentDate = function() {
-
 }
 
 let dateBuilder = function(timezone) {

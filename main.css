@@ -1,72 +1,46 @@
-
 @import "./light.css";
 @import "./dark.css";
 
 :root {
-    --mode-background-color: #000;
-    --mode-color: #fff;
+    --body-background-color: #000;
+    --header-background-color: #000;
+    --body-color: #fff;
     --map-filter: invert(0%);
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    /* color: #ddd; */
+body {
+    margin: 0 auto;
+    font-family: 'montserrat', sans-serif;
+    background-color: var(--body-background-color);
+}
+.page {
+    margin: 0 auto;
+    width: 1200px;
 }
 
-body {
-    font-family: 'montserrat', sans-serif;
-    /* background-color: rgb(207, 207, 207); */
-    /* background-image: url('img/fall.jpg'); */
-    background-size: cover;
-    background-position: top center;
+ header {
+     background-color: var(--header-background-color);
+}
+
+header input {
+    width: 100%;
+    max-width: 280px;
+    margin: 20px 10px;
+    padding: 10px 15px;
+    border: none;
+    outline: none;
+    background-color: var(--sector-background-color);
+    border-radius: 20px;
+    border-bottom: 3px solid #96908b;
+
+    color: var(--body-color);
+    font-size: 20px;
+    font-weight: 700;
+    transition: 0.2s ease-out;
 }
 
 button {
-    padding: 0;
-    border: none;
-    font: inherit;
-    color: inherit;
-    background-color: transparent;
-    width: 100px;
-    height: 30px;
-    background-color: rgb(20, 46, 196);
-    color: #ddd;
-    border-radius: 10px;
-}
-
-.app-wrap {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    /* background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.99)); */
-}
-
-.mode {
-    background-color: var(--mode-background-color);
-    color: var(--mode-color);
-}
-
-.sector {
-    min-width: 200px;
-    background-color: var(--sector-background-color);
-    margin: 5px;
-    padding: 15px;
-    border-radius: 15px;
-    box-shadow: 3px 3px 1px rgb(26, 26, 26);
-    text-align: left;
-    color: var(--mode-color);
-}
-header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 50px 15px 15px;
-}
-
-header input  {
-    width: 100%;
+    width: 150px;
     max-width: 280px;
     padding: 10px 15px;
     border: none;
@@ -75,56 +49,59 @@ header input  {
     border-radius: 20px;
     border-bottom: 3px solid #96908b;
 
-    color: var(--mode-color);
+    color: var(--body-color);
     font-size: 20px;
     font-weight: 700;
     transition: 0.2s ease-out;
 }
 
-/* header input:hover {
-    background-color: rgba(200, 200, 200, 0.5);
+.container {
+    float: left;
+    width: 25%;
+}
 
-} */
-/* header input:focus {
-    background-color: rgba(200, 200, 200, 0.9);
-} */
+iframe {
+    border: none;
+    border-radius: 20px;
+}
+.city-map {
+    float: right;
+    margin: 20px 0 0;    
+    filter: var(--map-filter);
+}
 
-main {
-    flex: 1 1 100%;
-    padding: 25px 25px 50px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
+.sector {
+    min-width: 150px;
+    background-color: var(--sector-background-color);
+    margin: 10px 0;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 3px 3px 1px rgb(26, 26, 26);
+    text-align: left;
+    color: var(--body-color);
 }
 
 .location .city {
-    color: var(--mode-color);
+    color: var(--body-color);
     font-size: 32px;
     font-weight: 500;
     margin-bottom: 5px;
 }
 
 .location .date {
-    color: var(--mode-color);
+    color: var(--body-color);
     font-size: 16px;
 }
 
 .temperature .temp {
-    color: var(--mode-color);
+    color: var(--body-color);
     font-size: 60px;
     font-weight: 900;
     text-shadow: 2px 10px rgba(0, 0, 0, 0.6);
 }
 
-/* .temperature .temp span {
-    font-weight: 500;
-    font-size: 80px;
-    color: #ff0;
-} */
-
 .temperature .weather {
-    color: var(--mode-color);
+    color: var(--body-color);
     font-size: 32px;
     font-weight: 700;
     font-style: italic;
@@ -133,19 +110,16 @@ main {
 }
 
 .temperature .hi-low {
-    color: var(--mode-color);
+    color: var(--body-color);
     font-size: 24px;
     font-weight: 500;
     text-shadow: 1px 4px rgba(0, 0, 0, 0.4);
 }
-.city-map {
-    /* width: 300px;
-    height: 150px; */
-    filter: var(--map-filter);
-}
 
 footer {
-    width: 100%;
+    bottom: 0;
+    position: absolute;
+    width: inherit;
     height: 50px;
     background-color: var(--sector-background-color);
 }
@@ -154,5 +128,5 @@ footer p {
     font-size: 16px;
     text-align: left;
     margin-left: 50px;
-    color: var(--mode-color);
+    color: var(--body-color);
 }

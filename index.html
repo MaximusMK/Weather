@@ -4,62 +4,61 @@
     <meta charset="UTF-8">
     <title>Weather</title>
     <link rel="stylesheet" href="main.css">
+
 </head>
     <body>
-        <div class="app-wrap mode">
+        <div class="page">
             <header>
                 <input type="text" onfocus="this.value=''"
                 autocomplete="off" class="search-city"
                 placeholder="Search city ...">
-                <button class="btn-mode">Turn Mode</button>
+                <button class="btn-mode">Turn mode</button>
             </header>
-            <main>
-                <div class="location sector">
-                    <div class="city">City, country</div>
-                    <div class="date">Day day Month year</div>
-                    <div class="time">00:00</div>
+            
+                <div class="wrapper">
+                    <div class="container">
+                        <div class="location sector">
+                            <div class="city">City, country</div>
+                            <div class="date">Day day Month year</div>
+                            <div class="time">00:00</div>
+                        </div>
+        
+                        <div class="temperature sector">
+                            <div class="temp">temp°C></div>                    
+                            <div class="temp-fills">temp°C</div>                    
+                            <div class="temp-min">temp°C</div>
+                            <div class="temp-max">temp°C</div>   
+                        </div>
+        
+                        <div class="sun sector">
+                            <div class="sunrise">sunrise</div>
+                            <div class="sunset">sunset</div>
+                            <div class="day-length">day length</div>
+                        </div>
+        
+                        <div class="wind sector">
+                            <div class="direction">direction</div>
+                            <div class="speed">speed</div>
+                            <div class="gust">gust</div>             
+                        </div>
+        
+                        <div class="clouds sector">
+                            <div class="cloudy">cloudy</div>
+                            <div class="humidity">humidity</div>
+                            <div class="pressure">pressure</div>
+                        </div>
+                    </div>                
+    
+                        <div class="city-map"></div>
                 </div>
-
-                <div class="temperature sector">
-                    <div class="temp">temp°C></div>                    
-                    <div class="temp-fills">temp°C</div>                    
-                    <div class="temp-min">temp°C</div>
-                    <div class="temp-max">temp°C</div>   
+                
+            <footer>
+                <div>
+                    <p>Created by Max Koval</p>
                 </div>
-
-                <div class="sun sector">
-                    <div class="sunrise">sunrise</div>
-                    <div class="sunset">sunset</div>
-                    <div class="day-length">day length</div>
-                </div>
-
-                <div class="wind sector">
-                    <div class="direction">direction</div>
-                    <div class="speed">speed</div>
-                    <div class="gust">gust</div>             
-                </div>
-
-                <div class="clouds sector">
-                    <div class="cloudy">cloudy</div>
-                    <div class="humidity">humidity</div>
-                    <div class="pressure">pressure</div>
-                </div>
-
-                <div class="maps sector">
-                    <div class="city-map"></div>
-                   
-                </div>
-
-                <footer>
-                    <div>
-                        <p>Created by Max Koval</p>
-                    </div>
-                </footer>
-
-            </main>
+            </footer>
         </div>
 
-
-    <script src="main.js"></script>
+        <script src="main.js"></script>
     </body>
 </html>
